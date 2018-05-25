@@ -9,7 +9,7 @@ const router = app => {
         response.status(200).json(users);
     });
 
-    app.get('/user/:id', function (request, response) {
+    app.get('/users/:id', function (request, response) {
         const id = request.params.id;
 
         const userById = users.filter((user) => user.id == id)[0];
