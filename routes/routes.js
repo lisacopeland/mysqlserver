@@ -2,11 +2,11 @@ const users = require('../data/users.js');
 
 const router = app => {
     app.get('/', (request, response) => {
-        response.status(200).send('HTTP API');
+        response.status(200).json('HTTP API');
     });
 
     app.get('/users', (request, response) => {
-        response.status(200).send(users);
+        response.status(200).json(users);
     });
 
     app.get('/user/:id', function (request, response) {
@@ -17,7 +17,7 @@ const router = app => {
         if (!userById) {
             response.sendStatus(404);
         } else {
-            response.status(200).send(userById);
+            response.status(200).json(userById);
         }
     });
 }
