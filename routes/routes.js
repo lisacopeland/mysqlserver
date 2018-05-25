@@ -12,7 +12,7 @@ const router = app => {
     app.get('/users/:id', function (request, response) {
         const id = request.params.id;
 
-        const userById = users.filter((user) => user.id == id)[0];
+        const userById = users.filter(user => user.id == id)[0];
 
         if (!userById) {
             response.sendStatus(404);
