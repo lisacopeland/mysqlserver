@@ -13,3 +13,5 @@ routes(app);
 const server = app.listen(3001, () => {
     console.log(`App running on port ${server.address().port}`);
 });
+
+// curl --data "id=3&name=Ben&email=ben@httpchat.dev&username=benizard" http://localhost:3001/users
