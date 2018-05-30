@@ -25,12 +25,11 @@ const router = app => {
 
     app.post('/users', (request, response) => {
         connection.insert('INSERT INTO users SET ?', request.body,
-            (error, result) => {
-                console.log(result);
+            (result, error) => {
                 if (error) {
                     console.log(error);
                 }   
-                response.send('User added to database.');
+                response.send('User added to database.' + result.insertId);
                 console.log('User added to database.');
             }
         );
