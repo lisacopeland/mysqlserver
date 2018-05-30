@@ -1,23 +1,10 @@
-const mysql = require('mysql');
+const Database = require('./config');
+const connection = new Database();
 
 let users = [];
 
-var connection = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: 'root',
-    database: 'node'
-});
-
-connection.connect(function (error) {
-    if (error) throw error;
-    console.log("Connected!");
-});
-
-connection.query('SELECT * FROM users', function (error, results) {
-    if (error) throw error;
-
-    results.forEach(user => {
+connection.select('SELECT * FROM users', rows => {
+    rows.forEach(user => {
         users.push({
             id: user.id,
             name: user.name,
@@ -26,7 +13,5 @@ connection.query('SELECT * FROM users', function (error, results) {
         });
     });
 });
-
-connection.end();
 
 module.exports = users;

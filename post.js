@@ -17,4 +17,4 @@ request.post({
 });
 
 
-//curl --data "id=4&name=Joao&email=joao@httpchat.dev&username=jpggvilaca" http://localhost:3001/users
+//curl --data "id=5&name=Mike&email=mike@httpchat.dev&username=mike" http://localhost:3001/users

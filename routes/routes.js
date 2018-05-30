@@ -1,17 +1,6 @@
-const mysql = require('mysql');
+const Database = require('../data/config');
 const users = require('../data/users.js');
-
-var connection = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: 'root',
-    database: 'node'
-});
-
-connection.connect(function (error) {
-    if (error) throw error;
-    console.log("Connected!");
-});
+const connection = new Database();
 
 const router = app => {
 
@@ -25,7 +14,6 @@ const router = app => {
 
     app.get('/users/:id', (request, response) => {
         const id = request.params.id;
-
         const userById = users.filter(user => user.id == id)[0];
 
         if (!userById) {
@@ -35,12 +23,15 @@ const router = app => {
         }
     });
 
-    app.post('/users', (request, response, next) => {
-        console.log(request.body);
-        connection.query('INSERT INTO users SET ?', request.body,
-            function (error, result) {
-                if (error) throw error;
-                response.send('User added to database with ID: ' + result.insertId);
+    app.post('/users', (request, response) => {
+        connection.insert('INSERT INTO users SET ?', request.body,
+            (error, result) => {
+                console.log(result);
+                if (error) {
+                    console.log(error);
+                }   
+                response.send('User added to database.');
+                console.log('User added to database.');
             }
         );
     });
