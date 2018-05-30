@@ -25,8 +25,8 @@ function Database() {
         });
     }
 
-    this.insert = (query, insert, callback) => {
-        db.query(query, insert, (error, result) => {
+    this.insert = (query, values, callback) => {
+        db.query(query, values, (error, result) => {
             if (error) {
                 console.log(error);
             }
