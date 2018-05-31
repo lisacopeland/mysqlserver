@@ -16,6 +16,7 @@ CREATE TABLE `users` (
 
 ```bash
 git clone https://github.com/taniarascia/node-api.git
+cd node-api
 npm install
 node app.js
 ```
