@@ -12,7 +12,7 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 ```
 
-2. Clone, instal, and start up the app.
+2. Clone, install, and start up the app.
 
 ```bash
 git clone https://github.com/taniarascia/node-api.git
