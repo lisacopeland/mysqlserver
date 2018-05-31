@@ -33,17 +33,17 @@ const select = query =>
         }))
     );
 
-const insert = (query, values) =>
-    new Promise((resolve, reject) =>
-        connect(config)
-        .then(connection => connection.query(query, values, (error, result) => {
-            if (error) {
-                reject(error);
-            } else {
-                resolve(result);
-            }
-        }))
-    );
+    const insert = (query, values) =>
+        new Promise((resolve, reject) =>
+            connect(config)
+            .then(connection => connection.query(query, values, (error, result) => {
+                if (error) {
+                    reject(error);
+                } else {
+                    resolve(result);
+                }
+            }))
+        );
 
 module.exports = {
     select,
