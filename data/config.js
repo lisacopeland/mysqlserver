@@ -21,10 +21,11 @@ const connect = config => {
     });
 }
 
-const select = query =>
-    new Promise((resolve, reject) =>
+const select = query => {
+    return new Promise((resolve, reject) =>
         connect(config)
         .then(connection => connection.query(query, (error, result) => {
+            connection.end();
             if (error) {
                 reject(error);
             } else {
@@ -32,18 +33,21 @@ const select = query =>
             }
         }))
     );
+}
 
-    const insert = (query, values) =>
-        new Promise((resolve, reject) =>
-            connect(config)
-            .then(connection => connection.query(query, values, (error, result) => {
-                if (error) {
-                    reject(error);
-                } else {
-                    resolve(result);
-                }
-            }))
-        );
+const insert = (query, values) => {
+    return new Promise((resolve, reject) =>
+        connect(config)
+        .then(connection => connection.query(query, values, (error, result) => {
+            connection.end();
+            if (error) {
+                reject(error);
+            } else {
+                resolve(result);
+            }
+        }))
+    );
+}
 
 module.exports = {
     select,

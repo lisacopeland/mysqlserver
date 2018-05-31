@@ -4,6 +4,7 @@ const connection = require('../data/config');
 const home = `<h1>HTTP API</h1>
 <ul>
     <li>GET <a href="/users">/users</a></li>
+    <li>GET <a href="/users/1">/users/{id}</a></li>
 </ul>`;
 
 const router = app => {
@@ -27,14 +28,13 @@ const router = app => {
     });
 
     app.post('/users', (request, response) => {
-        connection.insert('INSERT INTO users SET ?', request.body).then(
-            (result, error) => {
-                if (error) {
-                    console.log(error);
-                }
+        connection.insert('INSERT INTO users SET ?', request.body)
+            .then(result => {
                 response.send(`User added to database: ${result.insertId}`);
-            }
-        );
+            })
+            .catch(error => {
+                console.log(error);
+            });
     });
 }
 

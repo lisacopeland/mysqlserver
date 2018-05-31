@@ -1,6 +1,5 @@
 const connection = require('./config');
-
-let users = [];
+const users = [];
 
 connection.select('SELECT * FROM users').then(rows => {
     rows.forEach(user => {

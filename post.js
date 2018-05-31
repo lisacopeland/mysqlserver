@@ -11,7 +11,7 @@ request.post({
     body: json,
     json: true,
 }, function (error, response, body) {
-    console.log(error, response, body);
+    console.log(error, response);
 });
 
 /**
