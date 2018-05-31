@@ -1,11 +1,14 @@
-const Database = require('../data/config');
 const users = require('../data/users.js');
-const connection = new Database();
+const connection = require('../data/config');
+
+const home = `<h1>HTTP API</h1>
+<ul>
+    <li>GET <a href="/users">/users</a></li>
+</ul>`;
 
 const router = app => {
-
     app.get('/', (request, response) => {
-        response.status(200).json('HTTP API');
+        response.status(200).send(home);
     });
 
     app.get('/users', (request, response) => {
@@ -14,7 +17,7 @@ const router = app => {
 
     app.get('/users/:id', (request, response) => {
         const id = request.params.id;
-        const userById = users.filter(user => user.id == id)[0];
+        const userById = users.filter(user => user.id === id)[0];
 
         if (!userById) {
             response.sendStatus(404);
@@ -24,13 +27,12 @@ const router = app => {
     });
 
     app.post('/users', (request, response) => {
-        connection.insert('INSERT INTO users SET ?', request.body,
+        connection.insert('INSERT INTO users SET ?', request.body).then(
             (result, error) => {
                 if (error) {
                     console.log(error);
-                }   
-                response.send('User added to database.' + result.insertId);
-                console.log('User added to database.');
+                }
+                response.send(`User added to database: ${result.insertId}`);
             }
         );
     });

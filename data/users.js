@@ -1,15 +1,14 @@
-const Database = require('./config');
-const connection = new Database();
+const connection = require('./config');
 
 let users = [];
 
-connection.select('SELECT * FROM users', rows => {
+connection.select('SELECT * FROM users').then(rows => {
     rows.forEach(user => {
         users.push({
             id: user.id,
             name: user.name,
             email: user.email,
-            username: user.username
+            username: user.username,
         });
     });
 });

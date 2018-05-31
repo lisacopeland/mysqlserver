@@ -1,6 +1,6 @@
-var request = require('request');
+const request = require('request');
 
-var json = {
+const json = {
     "name": "Ben",
     "email": "ben@httpchat.dev",
     "username": "benizard"
@@ -9,12 +9,12 @@ var json = {
 request.post({
     url: 'http://localhost:3001/users',
     body: json,
-    json: true
+    json: true,
 }, function (error, response, body) {
-    console.log(body);
-    console.log(error);
-    console.log(response);
+    console.log(error, response, body);
 });
 
-
-//curl --data "id=5&name=Mike&email=mike@httpchat.dev&username=mike" http://localhost:3001/users
+/**
+ * POST can also be send through as a curl. Example:
+ * curl --data "name=Mike&email=mike@httpchat.dev&username=mike" http://localhost:3001/users
+ */

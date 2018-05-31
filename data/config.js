@@ -1,38 +1,51 @@
 const mysql = require('mysql');
 
-function Database() {
-    let db = mysql.createConnection({
-        host: 'localhost',
-        user: 'root',
-        password: 'root',
-        database: 'node'
-    });
-
-    db.connect(error => {
-        if (error) {
-            console.log('Error connecting to Db');
-            return;
-        }
-        console.log('Database connected');
-    });
-
-    this.select = (query, callback) => {
-        db.query(query, (error, rows) => {
-            if (error) {
-                console.log(error);
-            }
-            callback(rows);
-        });
-    }
-
-    this.insert = (query, values, callback) => {
-        db.query(query, values, (error, result) => {
-            if (error) {
-                console.log(error);
-            }
-            callback(result);
-        });
-    }
+const config = {
+    host: 'localhost',
+    user: 'root',
+    password: 'root',
+    database: 'node'
 }
 
-module.exports = Database;
+const connect = config => {
+    return new Promise((resolve, reject) => {
+        const connection = mysql.createConnection(config);
+
+        connection.connect(error => {
+            if (error) {
+                reject(error);
+            } else {
+                resolve(connection);
+            }
+        });
+    });
+}
+
+const select = query =>
+    new Promise((resolve, reject) =>
+        connect(config)
+        .then(connection => connection.query(query, (error, result) => {
+            if (error) {
+                reject(error);
+            } else {
+                resolve(result);
+            }
+        }))
+    );
+
+const insert = (query, values) =>
+    new Promise((resolve, reject) =>
+        connect(config)
+        .then(connection => connection.query(query, values, (error, result) => {
+            if (error) {
+                reject(error);
+            } else {
+                resolve(result);
+            }
+        }))
+    );
+
+module.exports = {
+    select,
+    insert
+}
