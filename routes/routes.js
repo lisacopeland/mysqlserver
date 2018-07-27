@@ -1,4 +1,3 @@
-const users = require('../data/users.js');
 const connection = require('../data/config');
 
 const home = `<h1>HTTP API</h1>
@@ -13,18 +12,25 @@ const router = app => {
     });
 
     app.get('/users', (request, response) => {
-        response.status(200).json(users);
+        connection.select('SELECT * FROM users', request.body)
+            .then(result => {
+                response.send(result);
+            })
+            .catch(error => {
+                console.log(error);
+            });
     });
 
     app.get('/users/:id', (request, response) => {
         const id = request.params.id;
-        const userById = users.filter(user => user.id == id)[0];
 
-        if (!userById) {
-            response.sendStatus(404);
-        } else {
-            response.status(200).json(userById);
-        }
+        connection.select('SELECT * FROM users WHERE id = ?', [id])
+        .then(result => {
+            response.send(result);
+        })
+        .catch(error => {
+            console.log(error);
+        });
     });
 
     app.post('/users', (request, response) => {
