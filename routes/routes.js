@@ -5,7 +5,7 @@ const pool = require('../data/config');
 const router = app => {
     // Display welcome message on the root
     app.get('/', (request, response) => {
-        response.status(200).send({message: 'Welcome to the Node.js Express REST API!'});
+        response.send({message: 'Welcome to the Node.js Express REST API!'});
     });
 
     // Display all users
@@ -33,7 +33,7 @@ const router = app => {
         pool.query('INSERT INTO users SET ?', request.body, (error, result) => {
             if (error) throw error;
 
-            response.send(`User added with ID: ${result.insertId}`);
+            response.status(201).send(`User added with ID: ${result.insertId}`);
         });
     });
 
@@ -54,7 +54,6 @@ const router = app => {
 
         pool.query('DELETE FROM users WHERE id = ?', id, (error, result) => {
             if (error) throw error;
-
             response.send('User deleted.');
         });
     });
