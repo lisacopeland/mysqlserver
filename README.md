@@ -1,6 +1,8 @@
-# Node API
+# Node.js Express REST API
 
-1. Make sure MySQL is installed and running on the system. Create a `node` table and run the query:
+## Create Database
+
+Make sure MySQL is installed and running on the system. Create a `api` table and run the query:
 
 ```sql
 CREATE TABLE `users` (
@@ -12,7 +14,9 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 ```
 
-2. Clone, install, and start up the app.
+## Installation
+
+Clone, install, and start up the app.
 
 ```bash
 git clone https://github.com/taniarascia/node-api.git
@@ -21,10 +25,14 @@ npm install
 node app.js
 ```
 
-Navigate to http://localhost:3001
+Navigate to http://localhost:3002
 
-3. Send a POST request through
+## Send Requests
 
-```
-node post.js
-```
+Use `node post.js` to send a `POST` request through, or use `curl` to do all HTTP CRUD requests.
+
+- **GET**: `curl http://localhost:3002/users`
+- **GET**: `curl http://localhost:3002/users/1`
+- **POST**: `curl --data "name=Tania&email=tania@example.com&username=floppydiskette" http://localhost:3002/users`
+- **PUT**: `curl -X PUT -d "name=Tania" -d "email=tania@example.com" -d "username=taniarascia" http://localhost:3002/users/1`
+- **DELETE**: `curl -X "DELETE" http://localhost:3002/users/1`

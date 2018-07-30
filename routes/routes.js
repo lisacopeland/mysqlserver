@@ -1,46 +1,54 @@
 const connection = require('../data/config');
 
-const home = `<h1>HTTP API</h1>
-<ul>
-    <li>GET <a href="/users">/users</a></li>
-    <li>GET <a href="/users/1">/users/{id}</a></li>
-</ul>`;
-
 const router = app => {
-    app.get('/', (request, response) => {
-        response.status(200).send(home);
+    app.get('/', function (request, response) {
+        response.status(200).json('Node.js Express REST API');
     });
 
-    app.get('/users', (request, response) => {
-        connection.select('SELECT * FROM users', request.body)
-            .then(result => {
-                response.send(result);
-            })
-            .catch(error => {
-                console.log(error);
-            });
+    app.get('/users', function (request, response) {
+        connection.query('SELECT * FROM users', function (error, result) {
+            if (error) throw error;
+
+            response.send(result);
+        });
     });
 
-    app.get('/users/:id', (request, response) => {
+    app.get('/users/:id', function (request, response) {
         const id = request.params.id;
 
-        connection.select('SELECT * FROM users WHERE id = ?', [id])
-        .then(result => {
+        connection.query('SELECT * FROM users WHERE id = ?', id, function (error, result) {
+            if (error) throw error;
+
             response.send(result);
-        })
-        .catch(error => {
-            console.log(error);
         });
     });
 
     app.post('/users', (request, response) => {
-        connection.insert('INSERT INTO users SET ?', request.body)
-            .then(result => {
-                response.send(`User added to database: ${result.insertId}`);
-            })
-            .catch(error => {
-                console.log(error);
-            });
+        connection.query('INSERT INTO users SET ?', request.body, function (error, result) {
+            if (error) throw error;
+
+            response.send(`User added with ID: ${result.insertId}`);
+        });
+    });
+
+    app.put('/users/:id', function (request, response) {
+        const id = request.params.id;
+
+        connection.query('UPDATE users SET ? WHERE id = ?', [request.body, id], function (error, result) {
+            if (error) throw error;
+
+            response.send('User updated successfully.');
+        });
+    });
+
+    app.delete('/users/:id', function (request, response) {
+        const id = request.params.id;
+
+        connection.query('DELETE FROM users WHERE id = ?', id, function (error, result) {
+            if (error) throw error;
+
+            response.send('User deleted.');
+        });
     });
 }
 

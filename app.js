@@ -1,9 +1,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const routes = require('./routes/routes.js');
+const routes = require('./routes/routes')
 const app = express();
-
-const port = 3001;
+const port = 3002;
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({

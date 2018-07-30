@@ -4,52 +4,9 @@ const config = {
     host: 'localhost',
     user: 'root',
     password: 'root',
-    database: 'node'
-}
+    database: 'api',
+};
 
-const connect = config => {
-    return new Promise((resolve, reject) => {
-        const connection = mysql.createConnection(config);
+const connection = mysql.createPool(config);
 
-        connection.connect(error => {
-            if (error) {
-                reject(error);
-            } else {
-                resolve(connection);
-            }
-        });
-    });
-}
-
-const select = query => {
-    return new Promise((resolve, reject) =>
-        connect(config)
-        .then(connection => connection.query(query, (error, result) => {
-            connection.end();
-            if (error) {
-                reject(error);
-            } else {
-                resolve(result);
-            }
-        }))
-    );
-}
-
-const insert = (query, values) => {
-    return new Promise((resolve, reject) =>
-        connect(config)
-        .then(connection => connection.query(query, values, (error, result) => {
-            connection.end();
-            if (error) {
-                reject(error);
-            } else {
-                resolve(result);
-            }
-        }))
-    );
-}
-
-module.exports = {
-    select,
-    insert
-}
+module.exports = connection;
