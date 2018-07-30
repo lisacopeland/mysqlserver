@@ -25,7 +25,7 @@ npm install
 node app.js
 ```
 
-Navigate to http://localhost:3002
+Navigate to `http://localhost:3002`.
 
 ## Send Requests
 
