@@ -1,5 +1,6 @@
 const mysql = require('mysql');
 
+// Set database connection credentials
 const config = {
     host: 'localhost',
     user: 'root',
@@ -7,6 +8,8 @@ const config = {
     database: 'api',
 };
 
-const connection = mysql.createPool(config);
+// Create a MySQL pool
+const pool = mysql.createPool(config);
 
-module.exports = connection;
+// Export the pool
+module.exports = pool;
