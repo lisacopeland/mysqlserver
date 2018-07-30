@@ -27,12 +27,23 @@ node app.js
 
 Navigate to `http://localhost:3002`.
 
-## Send Requests
+## HTTP Requests
 
 Use `node post.js` to send a `POST` request through, or use `curl` to do all HTTP CRUD requests.
 
-- **GET**: `curl http://localhost:3002/users`
-- **GET**: `curl http://localhost:3002/users/1`
-- **POST**: `curl --data "name=Tania&email=tania@example.com&username=floppydiskette" http://localhost:3002/users`
-- **PUT**: `curl -X PUT -d "name=Tania" -d "email=tania@example.com" -d "username=taniarascia" http://localhost:3002/users/1`
-- **DELETE**: `curl -X "DELETE" http://localhost:3002/users/1`
+### GET
+
+- `curl http://localhost:3002/users`
+- `curl http://localhost:3002/users/1`
+
+### POST 
+
+- `curl --data "name=Tania&email=tania@example.com&username=floppydiskette" http://localhost:3002/users`
+
+### PUT
+
+- `curl -X PUT -d "name=Tania" -d "email=tania@example.com" -d "username=taniarascia" http://localhost:3002/users/1`
+
+### DELETE
+
+- `curl -X "DELETE" http://localhost:3002/users/1`
