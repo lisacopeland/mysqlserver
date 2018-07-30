@@ -1,3 +1,5 @@
+# Create an Express REST API with Node.js and MySQL
+
 ### Introduction
 
 ### Prerequisites
