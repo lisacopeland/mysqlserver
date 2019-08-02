@@ -5,13 +5,13 @@ const pool = require('../data/config');
 const router = app => {
     // Display welcome message on the root
     app.get('/', (request, response) => {
-        response.send({message: 'Welcome to the Node.js Express REST API!'});
+        response.send({message: 'Welcome to the Lisa Copeland buy_order REST API Server!'});
     });
 
     // Display all cars
-    app.get('/cars', (request, response) => {
+    app.get('/buyorders', (request, response) => {
         console.log('GET request display all cars');
-        pool.query('SELECT * FROM car', (error, result) => {
+        pool.query('SELECT * FROM buy_order', (error, result) => {
             console.log('result from query : ' + JSON.stringify(result));
             if (error) {
                 console.log('error sending error message ' + error.message);
@@ -27,10 +27,10 @@ const router = app => {
     });
 
     // Display a single car by ID
-    app.get('/cars/:id', (request, response) => {
+    app.get('/buyorder/:id', (request, response) => {
         const id = request.params.id;
         console.log('GET request for id : ' + id);        
-        pool.query('SELECT * FROM car WHERE id = ?', id, (error, result) => {
+        pool.query('SELECT * FROM buy_order WHERE id = ?', id, (error, result) => {
             console.log('result from query : ' + JSON.stringify(result));
             if (error) {
                 // throw error;
@@ -49,7 +49,7 @@ const router = app => {
     });
 
     // Add a new car
-    app.post('/cars', (request, response) => {
+    app.post('/buyorder', (request, response) => {
         console.log('POST request, body : ' + JSON.stringify(request.body));
         pool.query('INSERT INTO car SET ?', request.body, (error, result) => {
             console.log('result from query : ' + JSON.stringify(result));        
@@ -69,10 +69,10 @@ const router = app => {
     });
 
     // Update an existing car
-    app.put('/cars/:id', (request, response) => {
+    app.put('/buyorder/:id', (request, response) => {
         const id = request.params.id;
         console.log('PUT request for id ' + id);
-        pool.query('UPDATE car SET ? WHERE id = ?', [request.body, id], (error, result) => {
+        pool.query('UPDATE buy_order SET ? WHERE id = ?', [request.body, id], (error, result) => {
             console.log('result from query : ' + JSON.stringify(result));
             if (error) {
                 response.status(400).send({ error: "error" });
@@ -86,10 +86,10 @@ const router = app => {
     });
 
     // Delete a car
-    app.delete('/cars/:id', (request, response) => {
+    app.delete('/buyorder/:id', (request, response) => {
         const id = request.params.id;
         console.log('DELETE request for id ' + id);
-        pool.query('DELETE FROM car WHERE id = ?', id, (error, result) => {
+        pool.query('DELETE FROM buy_order WHERE id = ?', id, (error, result) => {
             console.log('result from query : ' + JSON.stringify(result));
             if (error) {
                 response.status(400).send({ error: error.message });
