@@ -12,53 +12,93 @@ const router = app => {
     app.get('/cars', (request, response) => {
         console.log('GET request display all cars');
         pool.query('SELECT * FROM car', (error, result) => {
-            if (error) throw error;
+            console.log('result from query : ' + JSON.stringify(result));
+            if (error) {
+                console.log('error sending error message ' + error.message);
+                response.status(400).send({ error: "error" });
+            } else {
+                response.send(result);
+            }
 
-            response.send(result);
+        }, error => {
+            console.log('error : ' + error.message);
+            response.status(400).send({ error: "error" });
         });
     });
 
     // Display a single car by ID
     app.get('/cars/:id', (request, response) => {
         const id = request.params.id;
-        console.log('hi from get for an id, id is ' + id);
+        console.log('GET request for id : ' + id);        
         pool.query('SELECT * FROM car WHERE id = ?', id, (error, result) => {
+            console.log('result from query : ' + JSON.stringify(result));
             if (error) {
                 // throw error;
-                response.send(error.message);
+                console.log('error sending error message ' + error.message);
+                response.status(400).send({ error : "error" });
             }
-
-            response.send(result);
+            if (result.length === 0) {
+                response.status(400).send({ error: "Bad request" });
+            } else {
+                response.status(200).send(result);
+            }
+        }, error => {
+            console.log('error : ' + error.message);
+            response.status(400).send({ error: "error" });
         });
     });
 
     // Add a new car
     app.post('/cars', (request, response) => {
+        console.log('POST request, body : ' + JSON.stringify(request.body));
         pool.query('INSERT INTO car SET ?', request.body, (error, result) => {
-            if (error) throw error;
-
-            response.status(201).send(`car added with ID: ${result.insertId}`);
+            console.log('result from query ' + result);        
+            if (error) {
+                response.status(400).send({ error: "error" });
+            } else {
+                const body = {
+                    message: `car added with ID: ${result.insertId}`,
+                    id: result.inserId
+                }
+                response.status(201).send(body);
+            }
+        }, error => {
+            console.log('error : ' + error.message);
+            response.status(400).send({ error: "error" });
         });
     });
 
     // Update an existing car
     app.put('/cars/:id', (request, response) => {
         const id = request.params.id;
-
-        pool.query('UPDATE cars SET ? WHERE id = ?', [request.body, id], (error, result) => {
-            if (error) throw error;
-
-            response.send('car updated successfully.');
+        console.log('PUT request for id ' + id);
+        pool.query('UPDATE car SET ? WHERE id = ?', [request.body, id], (error, result) => {
+            console.log('result from query ' + result);
+            if (error) {
+                response.status(400).send({ error: "error" });
+            } else {
+                response.status(200).send({ message: "success" });
+            }
+        }, error => {
+            console.log("error : " + error.message);
+            response.status(400).send({ error: "error" });
         });
     });
 
     // Delete a car
     app.delete('/cars/:id', (request, response) => {
         const id = request.params.id;
-
-        pool.query('DELETE FROM cars WHERE id = ?', id, (error, result) => {
-            if (error) throw error;
-            response.send('car deleted.');
+        console.log('DELETE request for id ' + id);
+        pool.query('DELETE FROM car WHERE id = ?', id, (error, result) => {
+            console.log('result from query ' + result);
+            if (error) {
+                response.status(400).send({ error: error.message });
+            } else {
+                response.status(200).send('success');
+            }
+        }, error => {
+            console.log('error : ' + error.message);
+            response.status(400).send({ error: error.message });
         });
     });
 }
