@@ -8,53 +8,57 @@ const router = app => {
         response.send({message: 'Welcome to the Node.js Express REST API!'});
     });
 
-    // Display all users
-    app.get('/users', (request, response) => {
-        pool.query('SELECT * FROM users', (error, result) => {
+    // Display all cars
+    app.get('/cars', (request, response) => {
+        console.log('GET request display all cars');
+        pool.query('SELECT * FROM car', (error, result) => {
             if (error) throw error;
 
             response.send(result);
         });
     });
 
-    // Display a single user by ID
-    app.get('/users/:id', (request, response) => {
+    // Display a single car by ID
+    app.get('/cars/:id', (request, response) => {
         const id = request.params.id;
-
-        pool.query('SELECT * FROM users WHERE id = ?', id, (error, result) => {
-            if (error) throw error;
+        console.log('hi from get for an id, id is ' + id);
+        pool.query('SELECT * FROM car WHERE id = ?', id, (error, result) => {
+            if (error) {
+                // throw error;
+                response.send(error.message);
+            }
 
             response.send(result);
         });
     });
 
-    // Add a new user
-    app.post('/users', (request, response) => {
-        pool.query('INSERT INTO users SET ?', request.body, (error, result) => {
+    // Add a new car
+    app.post('/cars', (request, response) => {
+        pool.query('INSERT INTO car SET ?', request.body, (error, result) => {
             if (error) throw error;
 
-            response.status(201).send(`User added with ID: ${result.insertId}`);
+            response.status(201).send(`car added with ID: ${result.insertId}`);
         });
     });
 
-    // Update an existing user
-    app.put('/users/:id', (request, response) => {
+    // Update an existing car
+    app.put('/cars/:id', (request, response) => {
         const id = request.params.id;
 
-        pool.query('UPDATE users SET ? WHERE id = ?', [request.body, id], (error, result) => {
+        pool.query('UPDATE cars SET ? WHERE id = ?', [request.body, id], (error, result) => {
             if (error) throw error;
 
-            response.send('User updated successfully.');
+            response.send('car updated successfully.');
         });
     });
 
-    // Delete a user
-    app.delete('/users/:id', (request, response) => {
+    // Delete a car
+    app.delete('/cars/:id', (request, response) => {
         const id = request.params.id;
 
-        pool.query('DELETE FROM users WHERE id = ?', id, (error, result) => {
+        pool.query('DELETE FROM cars WHERE id = ?', id, (error, result) => {
             if (error) throw error;
-            response.send('User deleted.');
+            response.send('car deleted.');
         });
     });
 }
