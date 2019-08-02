@@ -52,7 +52,7 @@ const router = app => {
     app.post('/cars', (request, response) => {
         console.log('POST request, body : ' + JSON.stringify(request.body));
         pool.query('INSERT INTO car SET ?', request.body, (error, result) => {
-            console.log('result from query ' + result);        
+            console.log('result from query : ' + JSON.stringify(result));        
             if (error) {
                 response.status(400).send({ error: "error" });
             } else {
@@ -73,7 +73,7 @@ const router = app => {
         const id = request.params.id;
         console.log('PUT request for id ' + id);
         pool.query('UPDATE car SET ? WHERE id = ?', [request.body, id], (error, result) => {
-            console.log('result from query ' + result);
+            console.log('result from query : ' + JSON.stringify(result));
             if (error) {
                 response.status(400).send({ error: "error" });
             } else {
@@ -90,7 +90,7 @@ const router = app => {
         const id = request.params.id;
         console.log('DELETE request for id ' + id);
         pool.query('DELETE FROM car WHERE id = ?', id, (error, result) => {
-            console.log('result from query ' + result);
+            console.log('result from query : ' + JSON.stringify(result));
             if (error) {
                 response.status(400).send({ error: error.message });
             } else {
