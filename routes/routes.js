@@ -10,7 +10,7 @@ const router = app => {
 
     // Display all cars
     app.get('/buyorders', (request, response) => {
-        console.log('GET request display all cars');
+        console.log('GET request display all Buy Orders');
         pool.query('SELECT * FROM buy_order', (error, result) => {
             console.log('result from query : ' + JSON.stringify(result));
             if (error) {
@@ -51,13 +51,13 @@ const router = app => {
     // Add a new car
     app.post('/buyorder', (request, response) => {
         console.log('POST request, body : ' + JSON.stringify(request.body));
-        pool.query('INSERT INTO car SET ?', request.body, (error, result) => {
+        pool.query('INSERT INTO buy_order SET ?', request.body, (error, result) => {
             console.log('result from query : ' + JSON.stringify(result));        
             if (error) {
                 response.status(400).send({ error: "error" });
             } else {
                 const body = {
-                    message: `car added with ID: ${result.insertId}`,
+                    message: `buy_order added with ID: ${result.insertId}`,
                     id: result.inserId
                 }
                 response.status(201).send(body);
@@ -87,6 +87,7 @@ const router = app => {
 
     // Delete a car
     app.delete('/buyorder/:id', (request, response) => {
+        console.log('params = ' + request.params);
         const id = request.params.id;
         console.log('DELETE request for id ' + id);
         pool.query('DELETE FROM buy_order WHERE id = ?', id, (error, result) => {

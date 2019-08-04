@@ -2,7 +2,7 @@
 
 ## Create Database
 
-Make sure MySQL is installed and running on the system. Create a `orders` table and run the query:
+Make sure MySQL is installed and running on the system. Create an 'orders' database and create a `buy_orders` table and run the query:
 
 ```sql
 CREATE TABLE buy_order (
@@ -17,6 +17,7 @@ CREATE TABLE buy_order (
 ## Installation
 
 Clone, install, and start up the app.
+Ensure that the data/config.js has the correct user and password
 
 ```
 git clone https://github.com/lisacopeland/mysqlserver
