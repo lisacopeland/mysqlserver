@@ -2,17 +2,7 @@
 
 ## Create Database
 
-Make sure MySQL is installed and running on the system. Create an 'orders' database and create a `buy_orders` table and run the query:
-
-```sql
-CREATE TABLE buy_order (
-  `id` int(5) NOT NULL AUTO_INCREMENT,
-  `name` char(255),
-  `max_bid_price` decimal(10,2),
-  `data_package_type` enum('Device Location', 'Device Behavior', 'ID Mapping'),
-  PRIMARY KEY (`id`)
-);
-```
+Make sure MySQL is installed and running on the system. Create an 'orders' database
 
 ## Installation
 

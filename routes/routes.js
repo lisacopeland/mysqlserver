@@ -8,7 +8,30 @@ const router = app => {
         response.send({message: 'Welcome to the Lisa Copeland buy_order REST API Server!'});
     });
 
-    // Display all cars
+    // Initialize Database Table
+    app.get('/initialize', (request, response) => {
+        console.log('Ensure that all elements are present in database');
+        const createBuyOrder = `create table if not exists buy_order(
+                          id int primary key auto_increment,
+                          name varchar(255) not null,
+                          max_bid_price decimal(10,2) not null default 0,
+                          data_package_type enum("Device Location", "Device Behavior", "ID Mapping") not null
+                          );`;
+        pool.query(createBuyOrder, (error, result) => {
+            console.log('result from query : ' + JSON.stringify(result));
+            if (error) {
+                console.log('error sending error message ' + error.message);
+                response.status(400).send({ error: "error" });
+            } else {
+                response.status(200).send({ message: "success" });
+            }
+        }, error => {
+            console.log('error : ' + error.message);
+            response.status(400).send({ error: "error" });
+        });
+    });
+
+    // Display all buyorders
     app.get('/buyorders', (request, response) => {
         console.log('GET request display all Buy Orders');
         pool.query('SELECT * FROM buy_order', (error, result) => {
@@ -26,7 +49,7 @@ const router = app => {
         });
     });
 
-    // Display a single car by ID
+    // Display a single buyorder by ID
     app.get('/buyorder/:id', (request, response) => {
         const id = request.params.id;
         console.log('GET request for id : ' + id);        
@@ -48,7 +71,7 @@ const router = app => {
         });
     });
 
-    // Add a new car
+    // Add a new buyorder
     app.post('/buyorder', (request, response) => {
         console.log('POST request, body : ' + JSON.stringify(request.body));
         pool.query('INSERT INTO buy_order SET ?', request.body, (error, result) => {
@@ -58,7 +81,7 @@ const router = app => {
             } else {
                 const body = {
                     message: `buy_order added with ID: ${result.insertId}`,
-                    id: result.inserId
+                    id: result.insertId
                 }
                 response.status(201).send(body);
             }
@@ -68,7 +91,7 @@ const router = app => {
         });
     });
 
-    // Update an existing car
+    // Update an existing buyorder
     app.put('/buyorder/:id', (request, response) => {
         const id = request.params.id;
         console.log('PUT request for id ' + id);
@@ -85,9 +108,8 @@ const router = app => {
         });
     });
 
-    // Delete a car
+    // Delete a buyorder
     app.delete('/buyorder/:id', (request, response) => {
-        console.log('params = ' + request.params);
         const id = request.params.id;
         console.log('DELETE request for id ' + id);
         pool.query('DELETE FROM buy_order WHERE id = ?', id, (error, result) => {
