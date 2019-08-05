@@ -3,6 +3,7 @@
 ## Create Database
 
 Make sure MySQL is installed and running on the system. Create an 'orders' database
+Note - Mysql must use the legacy authentication method
 
 ## Installation
 
